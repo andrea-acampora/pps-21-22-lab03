@@ -1,5 +1,9 @@
 package u03
 
+import u02.AlgebraicDataTypes.*
+import u02.AlgebraicDataTypes.Person.*
+
+
 import scala.annotation.tailrec
 import u02.Optionals.Option.*
 import u02.Optionals.*
@@ -17,9 +21,18 @@ object Lists extends App:
       case Cons(h, t) => h + sum(t)
       case _ => 0
 
-    def map[A, B](l: List[A])(mapper: A => B): List[B] = flatMap(l)(x  => Cons(mapper(x), Nil()))
+    def map[A, B](l: List[A])(mapper: A => B): List[B] = l match
+      case Cons(h, t) => Cons(mapper(h), map(t)(mapper))
+      case Nil() => Nil()
 
-    def filter[A](l1: List[A])(pred: A => Boolean): List[A] = flatMap(l1)( x => if (pred(x)) Cons(x, Nil()) else Nil())
+    def filter[A](l1: List[A])(pred: A => Boolean): List[A] = l1 match
+      case Cons(h, t) if pred(h) => Cons(h, filter(t)(pred))
+      case Cons(_, t) => filter(t)(pred)
+      case Nil() => Nil()
+
+    def mapWithFlatMap[A, B](l: List[A])(mapper: A => B): List[B] = flatMap(l)(x  => Cons(mapper(x), Nil()))
+
+    def filterWithFlatMap[A](l1: List[A])(pred: A => Boolean): List[A] = flatMap(l1)( x => if (pred(x)) Cons(x, Nil()) else Nil())
 
     @tailrec
     def drop[A](l1: List[A], n: Int): List[A] = l1 match
@@ -39,6 +52,11 @@ object Lists extends App:
       case Cons(h, t) if h >= orElse(max(t), h) => Option.Some(h)
       case Cons(_, t) => max(t)
       case Nil() => Option.None()
+
+    def getCoursesByTeacher(persons: List[Person]): List[String] = flatMap(persons)({
+      case Teacher(name, course) => Cons(course, Nil())
+      case _ => Nil()
+    })
 
   val l = List.Cons(10, List.Cons(20, List.Cons(30, List.Nil())))
   println(List.sum(l)) // 60
