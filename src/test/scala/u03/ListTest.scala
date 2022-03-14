@@ -37,3 +37,11 @@ class ListTest:
 
   @Test def testCoursesByTeacher(): Unit =
     assertEquals(Cons("PPS", Cons("PCD", Nil())), getCoursesByTeacher(Cons(Person.Teacher("Viroli", "PPS"), Cons(Person.Teacher("Ricci", "PCD"), Nil()))))
+
+  @Test def testFoldLeft(): Unit =
+    val lst = Cons(3, Cons(7, Cons(1, Cons(5, Nil()))))
+    assertEquals(-16, foldLeft(lst)(0)(_-_))
+
+  @Test def testFoldRight(): Unit =
+    val lst = Cons(3, Cons(7, Cons(1, Cons(5, Nil()))))
+    assertEquals(-8, foldRight(lst)(0)(_-_))
