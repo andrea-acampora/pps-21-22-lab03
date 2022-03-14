@@ -58,6 +58,14 @@ object Lists extends App:
       case _ => Nil()
     })
 
+    def foldLeft[A, B](l: List[A])(value: B)(operator: (B, A) => B): B = l match
+      case Cons(h, t) => operator(foldLeft(t)(value)(operator), h)
+      case Nil() => value
+
+    def foldRight[A, B](l: List[A])(value: B)(operator: (A, B) => B): B = l match
+      case Cons(h, t) => operator(h, foldRight(t)(value)(operator))
+      case Nil() => value
+
   val l = List.Cons(10, List.Cons(20, List.Cons(30, List.Nil())))
   println(List.sum(l)) // 60
 
