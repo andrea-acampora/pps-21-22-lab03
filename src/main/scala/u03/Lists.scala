@@ -1,5 +1,7 @@
 package u03
 
+import scala.annotation.tailrec
+
 object Lists extends App:
 
   // A generic linkedlist
@@ -21,6 +23,13 @@ object Lists extends App:
       case Cons(h, t) if pred(h) => Cons(h, filter(t)(pred))
       case Cons(_, t) => filter(t)(pred)
       case Nil() => Nil()
+
+    @tailrec
+    def drop[A](l1: List[A], n: Int): List[A] = l1 match
+      case Cons(h, t) if n > 0 => drop(t, n-1)
+      case Cons(h, t) => Cons(h, t)
+      case _ => Nil()
+
 
   val l = List.Cons(10, List.Cons(20, List.Cons(30, List.Nil())))
   println(List.sum(l)) // 60
