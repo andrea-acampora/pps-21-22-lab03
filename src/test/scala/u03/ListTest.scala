@@ -36,7 +36,4 @@ class ListTest:
     assertEquals(Option.Some(30), max(l))
 
   @Test def testCoursesByTeacher(): Unit =
-    val teacher1 = Person.Teacher("Viroli", "PPS")
-    val teacher2 = Person.Teacher("Ricci", "PCD")
-    val teachersList: List[Person] = Cons(teacher1, Cons(teacher2, Nil()))
-    assertEquals(Cons("PPS", Cons("PCD", Nil())), getCoursesByTeacher(teachersList))
+    assertEquals(Cons("PPS", Cons("PCD", Nil())), getCoursesByTeacher(Cons(Person.Teacher("Viroli", "PPS"), Cons(Person.Teacher("Ricci", "PCD"), Nil()))))
