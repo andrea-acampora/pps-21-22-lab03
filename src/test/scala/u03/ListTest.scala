@@ -32,6 +32,14 @@ class ListTest:
   @Test def testFlatMap(): Unit =
     assertEquals(Cons(11, Cons(21, Cons(31, Nil()))), flatMap(l)(v => Cons(v+1, Nil())))
 
+  @Test def testMapWithFlatmap(): Unit =
+    assertEquals(Cons(11, Cons(21, Cons(31, Nil()))), mapWithFlatMap(l)(_ + 1))
+    assertEquals(Cons("10", Cons("20", Cons("30", Nil()))), mapWithFlatMap(l)(_ + ""))
+
+  @Test def testFilterWithFlatmap(): Unit =
+    assertEquals(Cons(20, Cons(30, Nil())), filterWithFlatMap(l)(_ >= 20))
+    assertEquals(Cons(10, Cons(30, Nil())), filterWithFlatMap(l)(_ != 20))
+
   @Test def testMax(): Unit =
     assertEquals(Option.Some(30), max(l))
 

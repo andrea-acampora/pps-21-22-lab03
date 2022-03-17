@@ -51,14 +51,5 @@ object Streams extends App:
     def fib(): Stream[Int] =
       def _fib(a: Int, b: Int): Stream[Int] = cons(b, _fib(b, a+b))
       cons(0, _fib(0,1))
+      
   end Stream
-
-  // var simplifies chaining of functions a bit..
-  var str = Stream.iterate(0)(_ + 1) // {0,1,2,3,..}
-  str = Stream.map(str)(_ + 1) // {1,2,3,4,..}
-  str = Stream.filter(str)(x => (x < 3 || x > 20)) // {1,2,21,22,..}
-  str = Stream.take(str)(10) // {1,2,21,22,..,28}
-  println(Stream.toList(str)) // [1,2,21,22,..,28]
-
-  val corec: Stream[Int] = Stream.cons(1, corec) // {1,1,1,..}
-  println(Stream.toList(Stream.take(corec)(10))) // [1,1,..,1]
